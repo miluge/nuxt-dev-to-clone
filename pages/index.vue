@@ -1,34 +1,37 @@
 <template>
   <div class="page-wrapper">
-    <div>
-      <Logo />
-      <h1 class="title">
-        nuxt-dev-to-clone
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+    <div class="article-cards-wrapper">
+      <article-card-block
+        v-for="(article, i) in articles"
+        :key="article.id"
+        :article="article"
+        class="article-card-block"
+      />
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+import ArticlecardBlock from '@/components/blocks/ArticleCardBlock'
+
+export default {
+  components: {
+    ArticleCardBlock
+  },
+  data () {
+    return {
+      currentPage: 1,
+      articles: []
+    }
+  },
+  async fetch() {
+    const articles = await fetch(
+      'https://dev.to/api/articles?tag=nuxt&state=rising&page=${this.currentPage}'
+    ).then(res => res.json())
+
+    this.articles = this.articles.concat(articles)
+  }
+}
 </script>
 
 <style>
