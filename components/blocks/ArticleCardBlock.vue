@@ -55,8 +55,8 @@ export default {
         HeartIcon,
         CommentsIcon
     },
-    propos: {
-        article {
+    props: {
+        article: {
             type: Object,
             default: null
         }
